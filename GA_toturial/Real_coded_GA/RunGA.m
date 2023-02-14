@@ -14,6 +14,7 @@ function out = RunGA(Problem, params)
   Mu = params.Mu;
   beta = params.beta;
   sigma = params.sigma;
+  gamma = params.gamma;
   %create the initialization
   %the empty individual template for members of population
   empty_individual.Position = [];
@@ -53,7 +54,7 @@ function out = RunGA(Problem, params)
       %popC = repmat(empty_individual, nC, 1); %population of children, it should be 2 columns
       popC = repmat(empty_individual, nC/2, 2);
       
-      %perform crossover
+      %% perform crossover
       for k = 1:nC/2
           %q = randperm(nPop);
           
@@ -66,12 +67,19 @@ function out = RunGA(Problem, params)
               UniformCrossover(p1.Position, p2.Position, gamma);%p1.Position id x1
               %can be doublePointCrossover()/singlepointcrossover/uniformcrossover;
       end
-      %perform mutation
+      
+      %% perform mutation
       %the matrix of popC is not needed to be 2 columns, so here need to be
       %changed
       popc = popC(:);% change popc from 2 column to 1 column
       for t = 1:nC
-          popc(t).Position = Mutate(popc(t).Position, Mu, sigma);
+          popc(t).Position  = Mutate(popc(t).Position, Mu, sigma);
+          %check for the variable Bounds
+          %if below 2 lines for bounds are commended out, then some
+          %variable will be out of the expected range(last column):[0.0550 -0.0261 0.1208 -0.0265 5.8151]
+          %if it is not commended out:[-4.1017e-04 -0.0017 -0.0020 0.0018 7.0000]
+          popc(t).Position  = max(popc(t).Position, VarMin); %position will not go below Varmin(lower bound)
+          popc(t).Position  = min(popc(t).Position, VarMax); %position will not go beyond Varmax(upper bound)
           %evalutate the solution
           popc(t).Cost  = CostFunc(popc(t).Position);
           if pop(t).Cost < bestSol.Cost % replace the Cost if there is a smaller value

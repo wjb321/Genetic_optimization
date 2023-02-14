@@ -13,6 +13,8 @@ function out = RunGA(Problem, params)
   nC = round(pC*nPop/2)*2; %nC offsprings
   Mu = params.Mu;
   beta = params.beta;
+  sigma = params.sigma;
+  gamma = params.gamma;
   %create the initialization
   %the empty individual template for members of population
   empty_individual.Position = [];
@@ -29,7 +31,7 @@ function out = RunGA(Problem, params)
   %randi([0,1],1, 10): produce integer between [0,1], 1 row and 10 columns
   for i=1:nPop
       %generate the random solution
-      pop(i).Position = unifrnd(VarMin, VarMax,VarSize); 
+      pop(i).Position = unifrnd(VarMin, VarMax,VarSize); %generate the random real coded values from min-max with size Varsize
       %evaluate solution
       pop(i).Cost = CostFunc(pop(i).Position);
       
@@ -52,7 +54,7 @@ function out = RunGA(Problem, params)
       %popC = repmat(empty_individual, nC, 1); %population of children, it should be 2 columns
       popC = repmat(empty_individual, nC/2, 2);
       
-      %perform crossover
+      %% perform crossover
       for k = 1:nC/2
           %q = randperm(nPop);
           
@@ -62,15 +64,21 @@ function out = RunGA(Problem, params)
           %p1 = pop(q(1));
           %p2 = pop(q(2));
           [popC(k,1).Position, popC(k,2).Position] = ... %popC(k,1).Position is y1
-              CombinedCrossover(p1.Position, p2.Position);%p1.Position id x1
+              UniformCrossover(p1.Position, p2.Position, gamma);%p1.Position id x1
               %can be doublePointCrossover()/singlepointcrossover/uniformcrossover;
       end
-      %perform mutation
+      
+      %% perform mutation
       %the matrix of popC is not needed to be 2 columns, so here need to be
       %changed
       popc = popC(:);% change popc from 2 column to 1 column
       for t = 1:nC
-          popc(t).Position = Mutate(popc(t).Position, Mu);
+          popc(t).Position  = Mutate(popc(t).Position, Mu, sigma);
+          %check for the variable Bounds
+          %if below 2 lines for bounds are commended out, then some
+          %variable will be out of the expected 
+          %popc(t).Position  = max(popc(t).Position, VarMin); %position will not go below Varmin(lower bound)
+          %popc(t).Position  = min(popc(t).Position, VarMax); %position will not go beyond Varmax(upper bound)
           %evalutate the solution
           popc(t).Cost  = CostFunc(popc(t).Position);
           if pop(t).Cost < bestSol.Cost % replace the Cost if there is a smaller value

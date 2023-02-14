@@ -21,11 +21,11 @@ ax.YAxisLocation = 'origin';
 %imagesc([min_x max_x], [min_y max_y], flip(img,1));
 %set(gca,'XTick',(-5:0.5:4)) 
 %hold on;
-H = plot(x1,1000*y1,x2,1000*y2,x3,1000*y3 )
+H = plot(x1,1000*y1,x2,1000*y2,x3,1000*y3, 'Linewidth', 2, 'MarkerSize', 8)
 %set(gca,'XAxisLocation','origin','YAxisLocation','origin')
 hl = legend(H([1 2 3]),'1','2','3');
 set(hl,'Orientation','horizon')
 legend({'I(D1)','I(D2)','I(D3)'},'Location','southoutside')
-title('liubingqing')
+%title('liubingqing')
 xlabel('Spannung über Diode / V')
 ylabel('Diodenstrom / mA')
