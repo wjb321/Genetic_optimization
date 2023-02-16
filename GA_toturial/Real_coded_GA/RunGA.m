@@ -44,7 +44,7 @@ function out = RunGA(Problem, params)
   
   %% Main loop
   for it = 1:MaxIt
-      %selection probablity
+      %% selection probablity
       c = [pop.Cost];
       avgc = mean(c);
       if avgc ~= 0
