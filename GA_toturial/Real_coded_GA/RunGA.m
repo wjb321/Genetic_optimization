@@ -6,7 +6,7 @@ function out = RunGA(Problem, params)
   VarMin = Problem.VarMin;
   VarMax = Problem.VarMax;
   
-  %extract the parameter
+  %% extract the parameter
   MaxIt = params.MaxIt;
   nPop = params.nPop;
   pC = params.pC;% percentage of children
@@ -42,7 +42,7 @@ function out = RunGA(Problem, params)
   %best records of Iterations
   bestCost = nan(MaxIt, 1);
   
-  %Main loop
+  %% Main loop
   for it = 1:MaxIt
       %selection probablity
       c = [pop.Cost];
@@ -57,14 +57,13 @@ function out = RunGA(Problem, params)
       %% perform crossover
       for k = 1:nC/2
           %q = randperm(nPop);
-          
           %selection parents
           p1 = pop(RouletteWheelSelection(probs)); 
           p2 = pop(RouletteWheelSelection(probs));
           %p1 = pop(q(1));
           %p2 = pop(q(2));
           [popC(k,1).Position, popC(k,2).Position] = ... %popC(k,1).Position is y1
-              UniformCrossover(p1.Position, p2.Position, gamma);%p1.Position id x1
+              UniformCrossover(p1.Position, p2.Position,gamma);%p1.Position id x1  
               %can be doublePointCrossover()/singlepointcrossover/uniformcrossover;
       end
       
@@ -78,6 +77,7 @@ function out = RunGA(Problem, params)
           %if below 2 lines for bounds are commended out, then some
           %variable will be out of the expected range(last column):[0.0550 -0.0261 0.1208 -0.0265 5.8151]
           %if it is not commended out:[-4.1017e-04 -0.0017 -0.0020 0.0018 7.0000]
+          %C = max(A,B) 返回从 A 或 B 中提取的最大元素的数组
           popc(t).Position  = max(popc(t).Position, VarMin); %position will not go below Varmin(lower bound)
           popc(t).Position  = min(popc(t).Position, VarMax); %position will not go beyond Varmax(upper bound)
           %evalutate the solution

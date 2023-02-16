@@ -14,6 +14,9 @@ nC= round(nPop * nPc/2)*2; %now it is a even value of crossover value
 %% define the template
 template.x = [];
 template.y = [];
+
+template.chromosome = [];
+template.value = [];
 %repmat([2,1], 2, 1) = 2     1
 %                      2     1
 Parent = repmat(template, nPop, 1); % repeat the matrix template with npop rows and 1 column
@@ -35,8 +38,10 @@ for It = 1: maxIt
     offspring = repmat(template, nC/2, 2); 
     %% crossover loop
     for j = 1:nC/2
-        p1 = selectionPop(Parent);
-        p2 = selectionPop(Parent);
+        %p1 = selectionPop(Parent);
+        %p2 = selectionPop(Parent);
+        p1 = roulette(Parent);
+        p2 = roulette(Parent);
         %assign col 1 and col 2 to x of sum(x),no need to calculate y value
         %cause next step is mutation, after this, then can calculate y
         [offspring(j,1).x, offspring(j,2).x] = Crossover(p1.x, p2.x);

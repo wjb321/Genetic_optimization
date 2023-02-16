@@ -8,11 +8,13 @@ Problem.CostFunc = @(x) Sphere(x);
 Problem.nVar = 5; %parameter variables
 %so the meaning below is defining the minimal values for the problem in
 %ranges[-10,10] [-8, 8],,,,,,(matrix version)
-Problem.VarMin = [-10 -8 -1 -10 7]; %so the each variable has the low bound respectively
+
+%the variables have different bounds
+Problem.VarMin = [-10 -8 -1 -10 -7]; %so the each variable has the low bound respectively
 Problem.VarMax = [ 10  8  1  10 9]; %so the variable has th upper bound also
 
 %% GA parameters 
-params.MaxIt = 100;
+params.MaxIt = 500;
 params.nPop = 100; %the initial generation value
 params.pC = 1;
 params.Mu = 0.02; % mutation rate
