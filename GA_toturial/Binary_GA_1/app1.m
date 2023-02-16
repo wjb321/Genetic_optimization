@@ -48,10 +48,10 @@ for It = 1: maxIt
         offspring(k).x = mutate(offspring(k).x, nMu);
         offspring(k).y = fun(offspring(k).x);
     end
-    newPop = [Parent;offspring];
-    [~, loc] = sort([newPop.y],'ascend');
-    newPop = newPop(loc);
-    Parent = newPop(1 : nPop);
+    newPop = [Parent;offspring]; %selecte the parent and offspr(concatenation)
+    [~, loc] = sort([newPop.y],'ascend');% ascend and only take its subscript
+    newPop = newPop(loc); % find the individual by the subscript
+    Parent = newPop(1 : nPop);% just select the 1-nPop population, discard the rest
     disp(['it times: ', num2str(It), 'mini val is: ', num2str(Parent(1).y)]);
     %throw away to last half
 end
