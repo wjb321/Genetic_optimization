@@ -10,7 +10,7 @@ Problem.nVar = 5; %parameter variables
 %ranges[-10,10] [-8, 8],,,,,,(matrix version)
 
 %the variables have different bounds
-Problem.VarMin = [-10 -8 -1 -10 -7]; %so the each variable has the low bound respectively
+Problem.VarMin = [-10 -8 -1 -10 4]; %so the each variable has the low bound respectively
 Problem.VarMax = [ 10  8  1  10 9]; %so the variable has th upper bound also
 
 %% GA parameters 
